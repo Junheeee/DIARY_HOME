@@ -1,11 +1,12 @@
+import Axios from "../../modules/utils/customAxiosUtil";
 import { Box, Button, TextField } from "@mui/material";
-import Axios from "axios";
 import { useState } from "react";
 import Image from "next/image";
 import kakao from "../../../public/images/kakao_login_medium_wide.png";
 import goggle from "../../../public/images/btn_google_signin_light_normal_web@2x.png";
 import apple from "../../../public/images/appleid_button@1x.png";
 import styles from "../../../public/css/Login.module.css";
+import { accountAPI } from "../../modules/account/accountApi";
 
 export default function Login() {
   const [userId, setUserId] = useState();
@@ -19,14 +20,12 @@ export default function Login() {
     }
   };
 
-  const loginCheck = (id, pw) => {
-    const apiurl = process.env.NEXT_PUBLIC_API_URL;
-    Axios.post(`${apiurl}/api/cstmr/login`, {
+  const loginCheck = async (id, pw) => {
+    const { data: users } = await accountAPI.checkLogin({
       userId: id,
       userPswd: pw,
-    }).then((res) => {
-      console.log(res.data.data.result);
     });
+    console.log(users);
   };
 
   return (
@@ -55,7 +54,7 @@ export default function Login() {
           <div className={styles.textField_Box}>
             <TextField
               style={{ display: "flex" }}
-              id="standard-basic"
+              id="userId"
               name="userId"
               label="ID"
               maxRows={1}
@@ -66,7 +65,7 @@ export default function Login() {
             />
             <TextField
               style={{ display: "flex" }}
-              id="standard-basic"
+              id="userPw"
               name="userPw"
               label="Password"
               type="password"
@@ -92,7 +91,7 @@ export default function Login() {
           <Image src={kakao} alt="logo" width="auto" height="auto" />
         </div>
         <div className={styles.img_div}>
-          <Image src={goggle} alt="logo" width="305" height="70" />
+          <Image src={goggle} alt="logo" width="305" height="70" priority />
         </div>
         <div className={styles.img_div}>
           <Image src={apple} alt="logo" width="auto" height="auto" />

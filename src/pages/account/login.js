@@ -1,9 +1,9 @@
 import Axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Login from "../component/account/Login";
+import LoginContainer from "../../containers/account/LoginContainer";
 
-export default function Admin() {
+export default function login() {
   // const router = useRouter();
   // const [isLogin, setIsLogin] = useState(false);
 
@@ -28,5 +28,5 @@ export default function Admin() {
   //   checkLogin();
   // }, []);
 
-  return <Login />;
+  return <LoginContainer />;
 }

@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import { Divider, Header } from "semantic-ui-react";
-import styles from "../../../public/css/Gnb.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
+import styles from "../../public/css/Gnb.module.css";
 
 /*eslint-disable */
 export default function Gnb() {
@@ -59,7 +59,7 @@ export default function Gnb() {
               underline="hover"
               color="inherit"
               onClick={() => {
-                router.push("/login");
+                router.push("/account/login");
               }}
             >
               <div style={{ padding: 20 }}>login</div>
