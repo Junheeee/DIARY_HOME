@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Loader } from "semantic-ui-react";
-import Item from "../../src/component/Item";
+import Item from "../../component/Item";
 
 const Post = ({ item, name }) => {
   const router = useRouter();

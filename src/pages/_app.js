@@ -1,7 +1,7 @@
-import "../styles/globals.css";
+import "../../styles/globals.css";
 import "semantic-ui-css/semantic.min.css";
-import Footer from "../src/component/fix/Footer";
-import Top from "../src/component/fix/Top";
+import Footer from "../component/fix/Footer";
+import Top from "../component/fix/Top";
 import { SessionProvider } from "next-auth/react";
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import { Divider, Header } from "semantic-ui-react";
-import styles from "../../css/Gnb.module.css";
+import styles from "../../../public/css/Gnb.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 /*eslint-disable */

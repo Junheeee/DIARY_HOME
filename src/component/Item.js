@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Header, Loader } from "semantic-ui-react";
-import styles from "../css/Item.module.css";
+import styles from "../../public/css/Item.module.css";
 
 export default function Item({ item }) {
   const {

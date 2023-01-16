@@ -1,6 +1,6 @@
 /*eslint-disable */
 import { Grid } from "semantic-ui-react";
-import styles from "../css/ItemList.module.css";
+import styles from "../../public/css/ItemList.module.css";
 import Link from "next/link";
 import { useEffect } from "react";
 

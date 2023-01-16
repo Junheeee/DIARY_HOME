@@ -3,7 +3,7 @@ import Axios from "axios";
 import { useRouter } from "next/router";
 import { Button, Form } from "semantic-ui-react";
 
-export default function login() {
+export default function XXlogin() {
   const router = useRouter();
   function login() {
     Axios.post("/api/login").then((res) => {

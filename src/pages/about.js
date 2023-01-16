@@ -1,6 +1,6 @@
 import { Divider, Header, List } from "semantic-ui-react";
 
-export default function about() {
+export default function About() {
   return (
     <div>
       <Header as="h3" style={{ paddingTop: 40 }} color="teal">

@@ -1,10 +1,4 @@
-import Axios from "axios";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import { useEffect, useState } from "react";
-import { Divider, Header, Item, Loader } from "semantic-ui-react";
-import ItemList from "../src/component/ItemList";
-import Login from "../src/component/account/login";
 
 export default function Home() {
   // const [list, setList] = useState([]);
