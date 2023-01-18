@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Axios from "../../modules/utils/customAxiosUtil";
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
@@ -7,25 +8,73 @@ import goggle from "../../../public/images/btn_google_signin_light_normal_web@2x
 import apple from "../../../public/images/appleid_button@1x.png";
 import styles from "../../../public/css/Login.module.css";
 import { accountAPI } from "../../modules/account/accountApi";
+import { kakaoAPI } from "../../modules/kakao/kakaoApi";
+import { useRouter } from "next/router";
+import { KAKAO_AUTH_URL } from "../../configs/constants";
 
-export default function Login() {
-  const [userId, setUserId] = useState();
-  const [userPw, setUserPw] = useState();
+export default function Login({ data }) {
+  const router = useRouter();
 
-  const onChangeListener = (value, name) => {
-    if (name === "userId") {
-      setUserId(value);
-    } else if (name === "userPw") {
-      setUserPw(value);
+  const [userId, setUserId] = useState("");
+  const [userPw, setUserPw] = useState("");
+  const [token, setToken] = useState("");
+
+  const loginCheck = async () => {
+    const { data: users } = await accountAPI.checkLogin({
+      userId: userId,
+      userPswd: userPw,
+    });
+    if (users.data) {
+      router.push("/");
+    }
+
+    // const user = {
+    //   id: id,
+    //   pw: pw,
+    // };
+    // const result = useQuery("getUsers", user);
+  };
+
+  const kakaoLogin = async () => {
+    Kakao.Auth.loginForm({
+      success(authObj) {
+        getKakao(authObj.access_token);
+      },
+      fail(err) {
+        console.log(err);
+      },
+    });
+  };
+
+  const getKakao = async (accessToken) => {
+    // const { data: res } = await Axios.get(
+    //   `/api/kakao/login?token=${accessToken}`
+    // );
+    const { data: res } = await kakaoAPI.kakaoLogin(accessToken);
+    console.log(res);
+    setToken(accessToken);
+  };
+
+  const kakaoLogout = async () => {
+    const { status: code } = await Axios.get(
+      `/api/kakao/logout?token=${token}`
+    );
+    if (code === 200) {
+      alert("로그아웃 완료");
+    } else {
+      alert("로그아웃 실패");
     }
   };
 
-  const loginCheck = async (id, pw) => {
-    const { data: users } = await accountAPI.checkLogin({
-      userId: id,
-      userPswd: pw,
-    });
-    console.log(users);
+  const kakaoUnlink = async () => {
+    const { status: code } = await Axios.get(
+      `/api/kakao/unlink?token=${token}`
+    );
+    if (code === 200) {
+      alert("연결해제 완료");
+    } else {
+      alert("연결해제 실패");
+    }
   };
 
   return (
@@ -59,9 +108,8 @@ export default function Login() {
               label="ID"
               maxRows={1}
               variant="standard"
-              onChange={(e) => {
-                onChangeListener(e.target.value, e.target.name);
-              }}
+              value={userId}
+              onChange={({ target: { value } }) => setUserId(value)}
             />
             <TextField
               style={{ display: "flex" }}
@@ -71,16 +119,15 @@ export default function Login() {
               type="password"
               maxRows={1}
               variant="standard"
-              onChange={(e) => {
-                onChangeListener(e.target.value, e.target.name);
-              }}
+              value={userPw}
+              onChange={({ target: { value } }) => setUserPw(value)}
             />
           </div>
         </Box>
         <Button
           variant="outlined"
           onClick={() => {
-            loginCheck(userId, userPw);
+            loginCheck();
           }}
         >
           LOGIN
@@ -88,7 +135,40 @@ export default function Login() {
       </div>
       <div className={styles.field_Box} style={{ float: "right" }}>
         <div className={styles.img_div}>
-          <Image src={kakao} alt="logo" width="auto" height="auto" />
+          {token ? (
+            <></>
+          ) : (
+            <>
+              <Image
+                src={kakao}
+                alt="logo"
+                width="auto"
+                height="auto"
+                onClick={() => {
+                  kakaoLogin();
+                }}
+              />
+            </>
+          )}
+
+          <Button
+            style={{ marginLeft: "10px" }}
+            variant="outlined"
+            onClick={() => {
+              kakaoLogout();
+            }}
+          >
+            LOGOUT
+          </Button>
+          <Button
+            style={{ marginLeft: "10px" }}
+            variant="outlined"
+            onClick={() => {
+              kakaoUnlink();
+            }}
+          >
+            UNLINK
+          </Button>
         </div>
         <div className={styles.img_div}>
           <Image src={goggle} alt="logo" width="305" height="70" priority />
@@ -99,4 +179,10 @@ export default function Login() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await Axios.get({ KAKAO_AUTH_URL });
+
+  return { props: { data } };
 }

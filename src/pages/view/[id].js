@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Loader } from "semantic-ui-react";
-import Item from "../../components/Item";
+// import Item from "../../components/Item";
 
 const Post = ({ item, name }) => {
   return (
@@ -15,7 +15,7 @@ const Post = ({ item, name }) => {
             <meta name="description" content={item.description}></meta>
           </Head>
           {name} 환경 입니다.
-          <Item item={item} />
+          {/* <Item item={item} /> */}
         </>
       )}
     </>
