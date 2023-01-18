@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+/* eslint-disable @next/next/no-img-element */
 import { Button, Header, Loader } from "semantic-ui-react";
 import styles from "../../public/css/Item.module.css";
 
-export default function Item({ item }) {
+export default function Item(item: any) {
   const {
     name,
     image_link,

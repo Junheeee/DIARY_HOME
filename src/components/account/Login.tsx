@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import Axios from "../../modules/utils/customAxiosUtil";
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import Image from "next/image";
@@ -10,14 +8,14 @@ import styles from "../../../public/css/Login.module.css";
 import { accountAPI } from "../../modules/account/accountApi";
 import { kakaoAPI } from "../../modules/kakao/kakaoApi";
 import { useRouter } from "next/router";
-import { KAKAO_AUTH_URL } from "../../configs/constants";
 
-export default function Login({ data }) {
+export default function Login() {
   const router = useRouter();
 
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [token, setToken] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
 
   const loginCheck = async () => {
     const { data: users } = await accountAPI.checkLogin({
@@ -37,8 +35,13 @@ export default function Login({ data }) {
 
   const kakaoLogin = async () => {
     Kakao.Auth.loginForm({
-      success(authObj) {
-        getKakao(authObj.access_token);
+      async success(authObj) {
+        const { data: res } = await kakaoAPI.kakaoLogin(authObj.access_token);
+        console.log(res.data);
+        if (res.data) {
+          setIsLogin(true);
+          setToken(authObj.access_token);
+        }
       },
       fail(err) {
         console.log(err);
@@ -46,32 +49,23 @@ export default function Login({ data }) {
     });
   };
 
-  const getKakao = async (accessToken) => {
-    // const { data: res } = await Axios.get(
-    //   `/api/kakao/login?token=${accessToken}`
-    // );
-    const { data: res } = await kakaoAPI.kakaoLogin(accessToken);
-    console.log(res);
-    setToken(accessToken);
-  };
-
   const kakaoLogout = async () => {
-    const { status: code } = await Axios.get(
-      `/api/kakao/logout?token=${token}`
-    );
+    const { data: res } = await kakaoAPI.kakaoLogout(token);
+    const code = res.data.code;
     if (code === 200) {
       alert("로그아웃 완료");
+      setIsLogin(false);
     } else {
       alert("로그아웃 실패");
     }
   };
 
   const kakaoUnlink = async () => {
-    const { status: code } = await Axios.get(
-      `/api/kakao/unlink?token=${token}`
-    );
+    const { data: res } = await kakaoAPI.kakaoUnlink(token);
+    const code = res.data.code;
     if (code === 200) {
       alert("연결해제 완료");
+      setIsLogin(false);
     } else {
       alert("연결해제 실패");
     }
@@ -135,54 +129,46 @@ export default function Login({ data }) {
       </div>
       <div className={styles.field_Box} style={{ float: "right" }}>
         <div className={styles.img_div}>
-          {token ? (
-            <></>
-          ) : (
+          {isLogin ? (
             <>
-              <Image
-                src={kakao}
-                alt="logo"
-                width="auto"
-                height="auto"
+              <Button
+                style={{ marginLeft: "10px" }}
+                variant="outlined"
                 onClick={() => {
-                  kakaoLogin();
+                  kakaoLogout();
                 }}
-              />
+              >
+                LOGOUT
+              </Button>
+              <Button
+                style={{ marginLeft: "10px" }}
+                variant="outlined"
+                onClick={() => {
+                  kakaoUnlink();
+                }}
+              >
+                UNLINK
+              </Button>
             </>
+          ) : (
+            <Image
+              src={kakao}
+              alt="logo"
+              width="auto"
+              height="auto"
+              onClick={() => {
+                kakaoLogin();
+              }}
+            />
           )}
-
-          <Button
-            style={{ marginLeft: "10px" }}
-            variant="outlined"
-            onClick={() => {
-              kakaoLogout();
-            }}
-          >
-            LOGOUT
-          </Button>
-          <Button
-            style={{ marginLeft: "10px" }}
-            variant="outlined"
-            onClick={() => {
-              kakaoUnlink();
-            }}
-          >
-            UNLINK
-          </Button>
         </div>
         <div className={styles.img_div}>
           <Image src={goggle} alt="logo" width="305" height="70" priority />
         </div>
         <div className={styles.img_div}>
-          <Image src={apple} alt="logo" width="auto" height="auto" />
+          <Image src={apple} alt="logo" />
         </div>
       </div>
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  const res = await Axios.get({ KAKAO_AUTH_URL });
-
-  return { props: { data } };
 }

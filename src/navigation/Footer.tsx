@@ -1,5 +1,3 @@
-import { Divider } from "semantic-ui-react";
-
 const Footer = () => {
   return (
     <div

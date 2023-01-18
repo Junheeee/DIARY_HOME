@@ -2,14 +2,13 @@
 import { Grid } from "semantic-ui-react";
 import styles from "../../public/css/ItemList.module.css";
 import Link from "next/link";
-import { useEffect } from "react";
 
-export default function ItemList({ list }) {
+export default function ItemList(list: any) {
   return (
     <div>
       <Grid columns={3}>
         <Grid.Row>
-          {list.map((item) => (
+          {list.map((item: any) => (
             <Grid.Column key={item.id}>
               {/* <Link href={`/view/${item.id}`} as={`/view/${item.id}`}> */}
               <Link href="/detail/[id]" as={`/detail/${item.id}`}>
