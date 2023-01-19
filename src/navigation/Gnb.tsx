@@ -1,8 +1,10 @@
 import { useRouter } from "next/router";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Link from "@mui/material/Link";
-import { Divider, Header } from "semantic-ui-react";
+// import { Divider, Header } from "semantic-ui-react";
 import styles from "../../public/css/Gnb.module.css";
+import Link from "@mui/material/Link";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 export default function Gnb() {
   const router = useRouter();
@@ -20,7 +22,10 @@ export default function Gnb() {
               }}
             >
               <div style={{ padding: 20 }}>
-                <Header as="h3">DIARY</Header>
+                {/* <Header as="h3">DIARY</Header> */}
+                <Typography variant="h6" gutterBottom>
+                  DIARY
+                </Typography>
               </div>
             </Link>
           </Breadcrumbs>
@@ -49,7 +54,7 @@ export default function Gnb() {
           </Breadcrumbs>
         </div>
       </div>
-      <Divider />
+      {/* <Divider /> */}
     </div>
   );
 }

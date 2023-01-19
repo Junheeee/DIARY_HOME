@@ -1,25 +1,19 @@
+import * as React from "react";
+import PropTypes from "prop-types";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
-import { useRouter } from "next/router";
 import Link from "@mui/material/Link";
 
-const Top = (props: any) => {
+function Header(props) {
   const { sections, title } = props;
-  const router = useRouter();
+
   return (
-    <>
+    <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Button
-          size="small"
-          onClick={() => {
-            router.push("/about");
-          }}
-        >
-          Subscribe
-        </Button>
+        <Button size="small">Subscribe</Button>
         <Typography
           component="h2"
           variant="h5"
@@ -27,23 +21,14 @@ const Top = (props: any) => {
           align="center"
           noWrap
           sx={{ flex: 1 }}
-          onClick={() => {
-            router.push("/");
-          }}
         >
-          <span style={{ cursor: "pointer" }}>DIARY</span>
+          {title}
         </Typography>
         <IconButton>
           <SearchIcon />
         </IconButton>
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={() => {
-            router.push("/account/login");
-          }}
-        >
-          Sign in
+        <Button variant="outlined" size="small">
+          Sign up
         </Button>
       </Toolbar>
       <Toolbar
@@ -51,7 +36,7 @@ const Top = (props: any) => {
         variant="dense"
         sx={{ justifyContent: "space-between", overflowX: "auto" }}
       >
-        {sections.map((section: any) => (
+        {sections.map((section) => (
           <Link
             color="inherit"
             noWrap
@@ -64,8 +49,18 @@ const Top = (props: any) => {
           </Link>
         ))}
       </Toolbar>
-    </>
+    </React.Fragment>
   );
+}
+
+Header.propTypes = {
+  sections: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
 };
 
-export default Top;
+export default Header;

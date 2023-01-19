@@ -1,9 +1,10 @@
-import { Divider, Header, List } from "semantic-ui-react";
+// import { Divider, Header, List } from "semantic-ui-react";
 
 export default function About() {
   return (
     <div>
-      <Header as="h3" style={{ paddingTop: 40 }} color="teal">
+      회사소개 어쩌구
+      {/* <Header as="h3" style={{ paddingTop: 40 }} color="teal">
         회사 소개
       </Header>
       <Divider />
@@ -32,7 +33,7 @@ export default function About() {
       <Header as="h3" style={{ paddingTop: 40 }} color="teal">
         문의사항
       </Header>
-      <Divider />
+      <Divider /> */}
     </div>
   );
 }
