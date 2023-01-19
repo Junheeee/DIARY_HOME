@@ -34,8 +34,8 @@ export default function Login() {
   };
 
   const kakaoLogin = async () => {
-    Kakao.Auth.loginForm({
-      async success(authObj) {
+    window.Kakao.Auth.loginForm({
+      async success(authObj: any) {
         const { data: res } = await kakaoAPI.kakaoLogin(authObj.access_token);
         console.log(res.data);
         if (res.data) {
@@ -43,7 +43,7 @@ export default function Login() {
           setToken(authObj.access_token);
         }
       },
-      fail(err) {
+      fail(err: any) {
         console.log(err);
       },
     });
@@ -132,7 +132,7 @@ export default function Login() {
           {isLogin ? (
             <>
               <Button
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "10px", cursor: "pointer" }}
                 variant="outlined"
                 onClick={() => {
                   kakaoLogout();
@@ -141,7 +141,7 @@ export default function Login() {
                 LOGOUT
               </Button>
               <Button
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "10px", cursor: "pointer" }}
                 variant="outlined"
                 onClick={() => {
                   kakaoUnlink();
@@ -152,10 +152,9 @@ export default function Login() {
             </>
           ) : (
             <Image
+              className={styles.img}
               src={kakao}
               alt="logo"
-              width="auto"
-              height="auto"
               onClick={() => {
                 kakaoLogin();
               }}
@@ -163,10 +162,17 @@ export default function Login() {
           )}
         </div>
         <div className={styles.img_div}>
-          <Image src={goggle} alt="logo" width="305" height="70" priority />
+          <Image
+            className={styles.img}
+            src={goggle}
+            alt="logo"
+            width="305"
+            height="70"
+            priority
+          />
         </div>
         <div className={styles.img_div}>
-          <Image src={apple} alt="logo" />
+          <Image className={styles.img} src={apple} alt="logo" />
         </div>
       </div>
     </div>

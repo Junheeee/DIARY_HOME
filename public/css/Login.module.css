@@ -1,9 +1,13 @@
+.img {
+  cursor: pointer;
+}
+
 .img_div {
   display: flex;
   padding-bottom: 10px;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .textField_Box {
