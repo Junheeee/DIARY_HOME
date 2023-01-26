@@ -18,7 +18,7 @@ const Top = (props: any) => {
             router.push("/about");
           }}
         >
-          Subscribe
+          About
         </Button>
         <Typography
           component="h2"
@@ -28,10 +28,11 @@ const Top = (props: any) => {
           noWrap
           sx={{ flex: 1 }}
           onClick={() => {
-            router.push("/");
+            // router.push("/");
+            document.location.href = "/";
           }}
         >
-          <span style={{ cursor: "pointer" }}>DIARY</span>
+          <span style={{ cursor: "pointer" }}>{title}</span>
         </Typography>
         <IconButton>
           <SearchIcon />
