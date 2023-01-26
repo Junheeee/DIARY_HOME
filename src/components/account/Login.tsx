@@ -5,7 +5,7 @@ import kakao from "../../../public/images/kakao_login_medium_wide.png";
 import goggle from "../../../public/images/btn_google_signin_light_normal_web@2x.png";
 import apple from "../../../public/images/appleid_button@1x.png";
 import styles from "../../../public/css/Login.module.css";
-import { accountAPI } from "../../modules/account/accountApi";
+import { authApi } from "../../modules/account/authApi";
 import { kakaoAPI } from "../../modules/kakao/kakaoApi";
 import { useRouter } from "next/router";
 
@@ -18,7 +18,7 @@ export default function Login() {
   const [isLogin, setIsLogin] = useState(false);
 
   const loginCheck = async () => {
-    const { data: users } = await accountAPI.checkLogin({
+    const { data: users } = await authApi.checkLogin({
       userId: userId,
       userPswd: userPw,
     });
@@ -31,6 +31,14 @@ export default function Login() {
     //   pw: pw,
     // };
     // const result = useQuery("getUsers", user);
+  };
+
+  const userLogin = async () => {
+    const res = await authApi.userLogin({
+      userId: userId,
+      userPswd: userPw,
+    });
+    console.log(res);
   };
 
   const kakaoLogin = async () => {
@@ -121,7 +129,8 @@ export default function Login() {
         <Button
           variant="outlined"
           onClick={() => {
-            loginCheck();
+            // loginCheck();
+            userLogin();
           }}
         >
           LOGIN
