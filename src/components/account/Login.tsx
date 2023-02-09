@@ -1,82 +1,77 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import Image from "next/image";
-import kakao from "../../../public/images/kakao_login_medium_wide.png";
-import goggle from "../../../public/images/btn_google_signin_light_normal_web@2x.png";
-import apple from "../../../public/images/appleid_button@1x.png";
-import styles from "../../../public/css/Login.module.css";
-import { authApi } from "../../modules/account/authApi";
-import { kakaoAPI } from "../../modules/kakao/kakaoApi";
-import { useRouter } from "next/router";
+import kakao from "../../assets/images/kakao_login_medium_wide.png";
+import goggle from "../../assets/images/btn_google_signin_light_normal_web@2x.png";
+import apple from "../../assets/images/appleid_button@1x.png";
+import styles from "../../assets/css/Login.module.css";
+import {
+  cookieStorage,
+  COOKIE_ACCESS_TOKEN,
+  COOKIE_REFRESH_TOKEN,
+} from "../../modules/account/service/cookie";
+import {
+  useKakaoLogin,
+  useKakaoLogout,
+  useKakaoUnlink,
+  useUserLogin,
+} from "../../customHooks/auth/useAuth";
 
 export default function Login() {
-  const router = useRouter();
-
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [token, setToken] = useState("");
   const [isLogin, setIsLogin] = useState(false);
 
-  const loginCheck = async () => {
-    const { data: users } = await authApi.checkLogin({
-      userId: userId,
-      userPswd: userPw,
-    });
-    if (users.data) {
-      router.push("/");
+  const kakao_login = useKakaoLogin();
+  const kakao_logout = useKakaoLogout();
+  const kakao_unlink = useKakaoUnlink();
+  const user_login = useUserLogin();
+
+  const login = (type: string) => {
+    if (type === "normal") {
+      userLogin();
+    } else if (type === "kakao") {
+      kakaoLogin();
     }
 
-    // const user = {
-    //   id: id,
-    //   pw: pw,
-    // };
-    // const result = useQuery("getUsers", user);
+    // if (data) {
+    //   cookieStorage.setCookie(COOKIE_ACCESS_TOKEN, data.accessToken);
+    //   cookieStorage.setCookie(COOKIE_REFRESH_TOKEN, data.refreshToken);
+    //   console.log("어쩌구");
+    // }
   };
 
   const userLogin = async () => {
-    const res = await authApi.userLogin({
-      userId: userId,
-      userPswd: userPw,
-    });
-    console.log(res);
+    user_login.mutate(
+      {
+        userId: userId,
+        userPswd: userPw,
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+        },
+      }
+    );
   };
 
   const kakaoLogin = async () => {
     window.Kakao.Auth.loginForm({
-      async success(authObj: any) {
-        const { data: res } = await kakaoAPI.kakaoLogin(authObj.access_token);
-        console.log(res.data);
-        if (res.data) {
-          setIsLogin(true);
-          setToken(authObj.access_token);
-        }
+      success(authObj: any) {
+        const token = authObj.access_token;
+        kakao_login.mutate(token, {
+          onSuccess: () => {
+            alert("로그인");
+            setIsLogin(true);
+            setToken(token);
+          },
+        });
       },
       fail(err: any) {
         console.log(err);
       },
     });
-  };
-
-  const kakaoLogout = async () => {
-    const { data: res } = await kakaoAPI.kakaoLogout(token);
-    const code = res.data.code;
-    if (code === 200) {
-      alert("로그아웃 완료");
-      setIsLogin(false);
-    } else {
-      alert("로그아웃 실패");
-    }
-  };
-
-  const kakaoUnlink = async () => {
-    const { data: res } = await kakaoAPI.kakaoUnlink(token);
-    const code = res.data.code;
-    if (code === 200) {
-      alert("연결해제 완료");
-      setIsLogin(false);
-    } else {
-      alert("연결해제 실패");
-    }
   };
 
   return (
@@ -129,8 +124,7 @@ export default function Login() {
         <Button
           variant="outlined"
           onClick={() => {
-            // loginCheck();
-            userLogin();
+            login("normal");
           }}
         >
           LOGIN
@@ -144,7 +138,13 @@ export default function Login() {
                 style={{ marginLeft: "10px", cursor: "pointer" }}
                 variant="outlined"
                 onClick={() => {
-                  kakaoLogout();
+                  kakao_logout.mutate(token, {
+                    onSuccess: () => {
+                      alert("로그아웃");
+                      setIsLogin(false);
+                      setToken("");
+                    },
+                  });
                 }}
               >
                 LOGOUT
@@ -153,7 +153,13 @@ export default function Login() {
                 style={{ marginLeft: "10px", cursor: "pointer" }}
                 variant="outlined"
                 onClick={() => {
-                  kakaoUnlink();
+                  kakao_unlink.mutate(token, {
+                    onSuccess: () => {
+                      alert("연결해제");
+                      setIsLogin(false);
+                      setToken("");
+                    },
+                  });
                 }}
               >
                 UNLINK
@@ -165,7 +171,7 @@ export default function Login() {
               src={kakao}
               alt="logo"
               onClick={() => {
-                kakaoLogin();
+                login("kakao");
               }}
             />
           )}

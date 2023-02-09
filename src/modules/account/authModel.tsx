@@ -1,6 +1,13 @@
-export interface UserAccount {
+export interface userLoginData {
   userId: string;
   userPswd: string;
+}
+
+export interface loginResultData {
+  accessToken: string;
+  refreshToken: string;
+  userId: string;
+  cstmrSno: number;
 }
 
 export interface LoginData {

@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { Container } from "@mui/system";
 import { KAKAO_KEY } from "../configs/constants";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 declare global {
   interface Window {
@@ -29,19 +30,23 @@ const sections = [
 const theme = createTheme();
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const queryClient = new QueryClient();
+
   useEffect(() => {
     window.Kakao.init(KAKAO_KEY);
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="lg" style={{ paddingTop: "20px" }}>
-        <Header title="DIARY" sections={sections} />
-        <Component {...pageProps} />
-        <Footer />
-      </Container>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container maxWidth="lg" style={{ paddingTop: "20px" }}>
+          <Header title="DIARY" sections={sections} />
+          <Component {...pageProps} />
+          <Footer />
+        </Container>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 
