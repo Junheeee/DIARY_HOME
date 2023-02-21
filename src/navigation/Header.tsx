@@ -46,6 +46,16 @@ const Top = (props: any) => {
         >
           Sign in
         </Button>
+        <Button
+          style={{ marginLeft: "5px" }}
+          variant="outlined"
+          size="small"
+          onClick={() => {
+            router.push("/account/register");
+          }}
+        >
+          Sign up
+        </Button>
       </Toolbar>
       <Toolbar
         component="nav"
@@ -60,6 +70,9 @@ const Top = (props: any) => {
             variant="body2"
             href={section.url}
             sx={{ p: 1, flexShrink: 0 }}
+            onClick={() => {
+              router.push(`/board/${section.title}`);
+            }}
           >
             {section.title}
           </Link>

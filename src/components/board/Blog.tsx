@@ -5,6 +5,8 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import BlogMainFeaturedPost from "./BlogMainFeaturedPost";
 import BlogFeaturedPost from "./BlogFeaturedPost";
 import BlogSidebar from "./BlogSidebar";
+import { useEffect } from "react";
+import { useKakaoLogin } from "../../customHooks/auth/useAuth";
 
 const mainFeaturedPost = {
   title: "Title of a longer featured blog post",

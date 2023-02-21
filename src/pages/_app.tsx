@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Header from "../navigation/Header";
 import Footer from "../navigation/Footer";
 import { AppProps } from "next/app";
@@ -7,6 +7,8 @@ import { CssBaseline } from "@mui/material";
 import { Container } from "@mui/system";
 import { KAKAO_KEY } from "../configs/constants";
 import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import "../assets/css/Register.css";
 
 declare global {
   interface Window {
@@ -30,14 +32,14 @@ const sections = [
 const theme = createTheme();
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const queryClient = new QueryClient();
+  const queryClient = useRef(new QueryClient());
 
   useEffect(() => {
     window.Kakao.init(KAKAO_KEY);
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient.current}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container maxWidth="lg" style={{ paddingTop: "20px" }}>
@@ -46,6 +48,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <Footer />
         </Container>
       </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
 };

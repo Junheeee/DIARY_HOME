@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import kakao from "../../assets/images/kakao_login_medium_wide.png";
 import goggle from "../../assets/images/btn_google_signin_light_normal_web@2x.png";
@@ -12,10 +12,14 @@ import {
 } from "../../modules/account/service/cookie";
 import {
   useKakaoLogin,
+  useKakaoLogin2,
   useKakaoLogout,
   useKakaoUnlink,
   useUserLogin,
 } from "../../customHooks/auth/useAuth";
+import { QueryClient, useQuery } from "react-query";
+import { boardApi } from "../../modules/board/boardApi";
+import { useBoardApple } from "../../customHooks/board/useBoard";
 
 export default function Login() {
   const [userId, setUserId] = useState("");
@@ -24,6 +28,7 @@ export default function Login() {
   const [isLogin, setIsLogin] = useState(false);
 
   const kakao_login = useKakaoLogin();
+  // const kakao_login2 = useKakaoLogin2(token);
   const kakao_logout = useKakaoLogout();
   const kakao_unlink = useKakaoUnlink();
   const user_login = useUserLogin();
@@ -51,6 +56,8 @@ export default function Login() {
       {
         onSuccess: (data) => {
           console.log(data);
+          setIsLogin(true);
+          setToken(token);
         },
       }
     );
@@ -60,8 +67,11 @@ export default function Login() {
     window.Kakao.Auth.loginForm({
       success(authObj: any) {
         const token = authObj.access_token;
+        // setToken(token);
+        // kakao_login2.refetch(token);
         kakao_login.mutate(token, {
-          onSuccess: () => {
+          onSuccess: (data) => {
+            console.log(data);
             alert("로그인");
             setIsLogin(true);
             setToken(token);

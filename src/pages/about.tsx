@@ -1,4 +1,6 @@
 // import { Divider, Header, List } from "semantic-ui-react";
+import { useEffect } from "react";
+import { useKakaoLogin } from "../customHooks/auth/useAuth";
 
 export default function About() {
   return (
