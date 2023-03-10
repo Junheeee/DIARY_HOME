@@ -22,3 +22,9 @@ export interface LoginData {
   auth: string;
   encodedInfo: string | null;
 }
+
+export interface useLoginModel {
+  isLogin: boolean;
+  onLogin: () => void;
+  onLogout: () => void;
+}

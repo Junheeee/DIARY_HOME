@@ -6,32 +6,34 @@ import goggle from "../../assets/images/btn_google_signin_light_normal_web@2x.pn
 import apple from "../../assets/images/appleid_button@1x.png";
 import styles from "../../assets/css/Login.module.css";
 import {
-  cookieStorage,
-  COOKIE_ACCESS_TOKEN,
-  COOKIE_REFRESH_TOKEN,
-} from "../../modules/account/service/cookie";
-import {
   useKakaoLogin,
-  useKakaoLogin2,
   useKakaoLogout,
   useKakaoUnlink,
+  useLogin,
   useUserLogin,
 } from "../../customHooks/auth/useAuth";
-import { QueryClient, useQuery } from "react-query";
-import { boardApi } from "../../modules/board/boardApi";
-import { useBoardApple } from "../../customHooks/board/useBoard";
 
 export default function Login() {
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [token, setToken] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
 
   const kakao_login = useKakaoLogin();
-  // const kakao_login2 = useKakaoLogin2(token);
   const kakao_logout = useKakaoLogout();
   const kakao_unlink = useKakaoUnlink();
   const user_login = useUserLogin();
+
+  const { isUseLogin, onLogin, onLogout } = useLogin((state: any) => ({
+    isUseLogin: state.isUseLogin,
+    onLogin: state.onLogin,
+    onLogout: state.onLogout,
+  }));
+
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    setIsLogin(isUseLogin);
+  }, [isUseLogin]);
 
   const login = (type: string) => {
     if (type === "normal") {
@@ -39,12 +41,6 @@ export default function Login() {
     } else if (type === "kakao") {
       kakaoLogin();
     }
-
-    // if (data) {
-    //   cookieStorage.setCookie(COOKIE_ACCESS_TOKEN, data.accessToken);
-    //   cookieStorage.setCookie(COOKIE_REFRESH_TOKEN, data.refreshToken);
-    //   console.log("어쩌구");
-    // }
   };
 
   const userLogin = async () => {
@@ -56,7 +52,7 @@ export default function Login() {
       {
         onSuccess: (data) => {
           console.log(data);
-          setIsLogin(true);
+          onLogin();
           setToken(token);
         },
       }
@@ -67,13 +63,11 @@ export default function Login() {
     window.Kakao.Auth.loginForm({
       success(authObj: any) {
         const token = authObj.access_token;
-        // setToken(token);
-        // kakao_login2.refetch(token);
         kakao_login.mutate(token, {
           onSuccess: (data) => {
             console.log(data);
             alert("로그인");
-            setIsLogin(true);
+            onLogin();
             setToken(token);
           },
         });
@@ -151,7 +145,7 @@ export default function Login() {
                   kakao_logout.mutate(token, {
                     onSuccess: () => {
                       alert("로그아웃");
-                      setIsLogin(false);
+                      onLogout();
                       setToken("");
                     },
                   });
@@ -166,7 +160,7 @@ export default function Login() {
                   kakao_unlink.mutate(token, {
                     onSuccess: () => {
                       alert("연결해제");
-                      setIsLogin(false);
+                      onLogout();
                       setToken("");
                     },
                   });

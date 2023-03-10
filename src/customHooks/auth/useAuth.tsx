@@ -1,18 +1,13 @@
 import { useMutation, useQuery } from "react-query";
 import { auth } from "../../modules/account/auth";
+import { useLoginModel } from "../../modules/account/authModel";
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import { persist, createJSONStorage, devtools } from "zustand/middleware";
 
 export function useKakaoLogin() {
   const mutation = useMutation(auth.kakaoLogin);
   return mutation;
-}
-
-export function useKakaoLogin2(token: string) {
-  const query = useQuery(["kakaoLogin", token], auth.kakaoLogin2, {
-    staleTime: 5000,
-    cacheTime: Infinity,
-    enabled: false,
-  });
-  return query;
 }
 
 export function useKakaoLogout() {
@@ -29,3 +24,23 @@ export function useUserLogin() {
   const mutation = useMutation(auth.userLogin);
   return mutation;
 }
+
+export function useRegister() {
+  const mutation = useMutation(auth.register);
+  return mutation;
+}
+
+export const useLogin = create(
+  devtools(
+    persist(
+      (set) => ({
+        isUseLogin: false,
+        onLogin: () => set((state: any) => ({ isUseLogin: true })),
+        onLogout: () => set((state: any) => ({ isUseLogin: false })),
+      }),
+      {
+        name: "isLogin-storage",
+      }
+    )
+  )
+);

@@ -8,7 +8,7 @@ import { Container } from "@mui/system";
 import { KAKAO_KEY } from "../configs/constants";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import "../assets/css/Register.css";
+// import "../assets/css/Register.css";
 
 declare global {
   interface Window {

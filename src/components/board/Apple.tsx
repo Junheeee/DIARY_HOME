@@ -1,16 +1,13 @@
 /* eslint-disable react/jsx-key */
 import { QueryClient, useQuery } from "react-query";
-import { boardApi } from "../../modules/board/boardApi";
 import { Box, Button, TextField } from "@mui/material";
 import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import {
   useBoardAdd,
   useBoardApple,
-  useBoardDetail,
   useBoardRemove,
 } from "../../customHooks/board/useBoard";
-import { boardDelData } from "../../modules/board/boardModel";
 import { useRouter } from "next/router";
 
 export default function Apple() {

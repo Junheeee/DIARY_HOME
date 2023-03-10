@@ -5,57 +5,92 @@ import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import Link from "@mui/material/Link";
+import { useLogin } from "../customHooks/auth/useAuth";
+import { useState, useEffect } from "react";
 
 const Top = (props: any) => {
   const { sections, title } = props;
   const router = useRouter();
+
+  const { isUseLogin, onLogin, onLogout } = useLogin((state: any) => ({
+    isUseLogin: state.isUseLogin,
+    onLogin: state.onLogin,
+    onLogout: state.onLogout,
+  }));
+
+  const [isLogin, setIsLogin] = useState();
+
+  useEffect(() => {
+    // console.log(isUseLogin);
+    setIsLogin(isUseLogin);
+  }, [isUseLogin]);
   return (
     <>
       <Toolbar sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Button
+        {/* <Button
           size="small"
           onClick={() => {
             router.push("/about");
           }}
         >
           About
-        </Button>
+        </Button> */}
         <Typography
           component="h2"
-          variant="h5"
+          variant="h4"
           color="inherit"
-          align="center"
+          align="left"
           noWrap
           sx={{ flex: 1 }}
-          onClick={() => {
-            // router.push("/");
-            document.location.href = "/";
-          }}
         >
-          <span style={{ cursor: "pointer" }}>{title}</span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              document.location.href = "/";
+            }}
+          >
+            {title}
+          </span>
         </Typography>
-        <IconButton>
+        {/* <IconButton>
           <SearchIcon />
-        </IconButton>
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={() => {
-            router.push("/account/login");
-          }}
-        >
-          Sign in
-        </Button>
-        <Button
-          style={{ marginLeft: "5px" }}
-          variant="outlined"
-          size="small"
-          onClick={() => {
-            router.push("/account/register");
-          }}
-        >
-          Sign up
-        </Button>
+        </IconButton> */}
+        {isLogin ? (
+          <>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                onLogout();
+                alert("로그아웃 완료");
+              }}
+            >
+              LOGOUT
+            </Button>
+          </>
+        ) : (
+          <>
+            {/* <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                router.push("/account/login");
+              }}
+            >
+              Sign in
+            </Button> */}
+            <Button
+              style={{ marginLeft: "5px" }}
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                router.push("/account/register");
+              }}
+            >
+              Sign up
+            </Button>
+          </>
+        )}
       </Toolbar>
       <Toolbar
         component="nav"

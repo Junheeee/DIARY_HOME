@@ -7,12 +7,6 @@ export const auth = {
     return res.data;
   },
 
-  kakaoLogin2: async (data: any) => {
-    const token = data.queryKey[1];
-    const res = await Axios.get(`/api/jwt/kakaoLogin?token=${token}`);
-    return res.data;
-  },
-
   kakaoLogout: async (token: string) => {
     const res = await Axios.get(`/api/jwt/kakaoLogout?token=${token}`);
     return res.data;
@@ -25,6 +19,11 @@ export const auth = {
 
   userLogin: async (data: userLoginData) => {
     const res = await Axios.post(`/api/jwt/login`, data);
+    return res.data;
+  },
+
+  register: async (data: userLoginData) => {
+    const res = await Axios.post(`/api/jwt/register`, data);
     return res.data;
   },
 };

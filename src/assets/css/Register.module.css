@@ -1,0 +1,15 @@
+.sns {
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 5px 10px 5px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.sns img {
+  vertical-align: top;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}

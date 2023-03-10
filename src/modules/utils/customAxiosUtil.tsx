@@ -10,9 +10,11 @@ clientInstance.interceptors.request.use(
   async (config) => {
     let accessToken = await getAccessToken();
 
+    // config.headers["Authorization"] = accessToken;
     if (config.headers) {
       config.headers["Authorization"] = accessToken;
     }
+
     // alert(JSON.stringify(config.headers));
     // store.dispatch({
     //   type: GLOBAL_LOADING,
