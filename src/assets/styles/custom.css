@@ -1,0 +1,10 @@
+
+/* 지뢰피하기 */
+.bomb-title {display: flex;justify-content: center;align-items: center;height: 150px;font-size: 50px;}
+.bomb-gamepan {display: grid;background-image: url(/wlfhl.png);}
+.bomb-gamecan {display: flex;justify-content: center;align-items: center;border: 2px solid #000000;margin: 1px;cursor: pointer;background-color: rgba(0,0,0,0);}
+.bomb-rightAll {display: flex;justify-content: center;align-items: center;padding: 50px;margin: 50px;}
+.bomb-remainClick {display: flex;justify-content: center;align-items: center;margin-bottom: 5px;padding: 2px;border: 1px solid #000000;}
+.bomb-changeGame {display: flex;justify-content: center;align-items: center;padding: 20px 20px 0px 20px;}
+.bomb-plusMinus {display: flex;justify-content: center;border: 1px solid #000000; width: 20px;cursor: pointer;}
+.bomb-button {display: flex;justify-content: center;border: 1px solid #000000; margin: 20px; padding: 2px;cursor: pointer;}

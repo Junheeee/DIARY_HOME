@@ -1,5 +1,5 @@
 import Head from "next/head";
-import BlogContatiner from "../containers/board/BlogContainer";
+import BlogContatiner from "../containers/blog/BlogContainer";
 
 export default function Home() {
   return (

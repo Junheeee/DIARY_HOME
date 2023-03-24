@@ -3,7 +3,7 @@ import { boardData, boardDelData } from "./boardModel";
 
 export const boardApi = {
   boardList: async () => {
-    const res = await Axios.get("/api/board/apple");
+    const res = await Axios.get("/api/board/list");
     return res.data.data;
   },
 

@@ -1,4 +1,4 @@
-import Blog from "../../components/board/Blog";
+import Blog from "../../components/blog/Blog";
 
 export default function BlogContatiner() {
   return <Blog />;

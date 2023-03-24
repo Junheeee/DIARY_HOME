@@ -3,13 +3,10 @@ import { boardApi } from "../../modules/board/boardApi";
 
 const queryClient = new QueryClient();
 
-export function useBoardApple() {
-  const query = useQuery(["apple"], boardApi.boardList, {
+export function useBoardList() {
+  const query = useQuery(["boardList"], boardApi.boardList, {
     staleTime: 10000,
     cacheTime: Infinity,
-    // onSuccess: (data) => {
-    //   queryClient.setQueriesData(["apple"], data);
-    // },
   });
   return query;
 }

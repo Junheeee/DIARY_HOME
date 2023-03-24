@@ -40,7 +40,7 @@ export default function Detail(props: any) {
               variant="outlined"
               size="small"
               onClick={() => {
-                router.push("/board/apple");
+                router.push("/board/list");
               }}
             >
               뒤로가기

@@ -5,19 +5,19 @@ import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import {
   useBoardAdd,
-  useBoardApple,
+  useBoardList,
   useBoardRemove,
 } from "../../customHooks/board/useBoard";
 import { useRouter } from "next/router";
 
-export default function Apple() {
+export default function BoardList() {
   const router = useRouter();
   const queryClient = new QueryClient();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [removeNo, setRemoveNo] = useState({});
 
-  const board_list = useBoardApple();
+  const board_list = useBoardList();
   const board_add = useBoardAdd();
   const board_rem = useBoardRemove();
 
@@ -124,20 +124,24 @@ export default function Apple() {
           REMOVE
         </Button>
       </div>
-      <div style={{ height: 375, width: "auto" }}>
-        <DataGrid
-          rows={board_list.data}
-          getRowId={(data) => data.boardSno}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          disableSelectionOnClick
-          onSelectionModelChange={(ids) => {
-            setRemoveNo(ids);
-          }}
-        />
-      </div>
+      {board_list.data ? (
+        <div style={{ height: 375, width: "auto" }}>
+          <DataGrid
+            rows={board_list.data}
+            getRowId={(data) => data.boardSno}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+            onSelectionModelChange={(ids) => {
+              setRemoveNo(ids);
+            }}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
