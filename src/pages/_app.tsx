@@ -13,7 +13,7 @@ const sections = [
   { title: 'list', url: '#' },
   { title: 'bombGame', url: '#' },
   { title: 'validation', url: '#' },
-  { title: 'design', url: '#' },
+  { title: 'kakao', url: '#' },
   { title: 'egg', url: '#' },
   { title: 'fish', url: '#' },
   { title: 'girl', url: '#' },
