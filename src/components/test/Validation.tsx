@@ -121,7 +121,6 @@ export default function Validation() {
                 id='userBd'
                 label='생년월일'
                 autoComplete='current-password'
-                variant='standard'
                 error={!!errors.userBd}
                 {...register('userBd')}
                 helperText={!!errors.userBd ? errors.userBd.message : ''}
@@ -135,7 +134,7 @@ export default function Validation() {
                   id='userPhone1'
                   label='전화번호'
                   autoComplete='current-password'
-                  variant='standard'
+                  // variant='standard'
                   error={!!errors.userPhone1}
                   {...register('userPhone1')}
                 />
@@ -145,7 +144,7 @@ export default function Validation() {
                   id='userPhone2'
                   label='전화번호'
                   autoComplete='current-password'
-                  variant='standard'
+                  // variant='standard'
                   error={!!errors.userPhone2}
                   {...register('userPhone2')}
                 />
@@ -155,7 +154,7 @@ export default function Validation() {
                   id='userPhone3'
                   label='전화번호'
                   autoComplete='current-password'
-                  variant='standard'
+                  // variant='standard'
                   error={!!errors.userPhone3}
                   {...register('userPhone3')}
                 />
@@ -177,7 +176,7 @@ export default function Validation() {
                 id='userId'
                 label='아이디'
                 autoComplete='current-password'
-                variant='standard'
+                // variant='standard'
                 error={!!errors.userId}
                 {...register('userId')}
                 helperText={!!errors.userId ? errors.userId.message : ''}
@@ -191,7 +190,7 @@ export default function Validation() {
                 label='비밀번호'
                 type='password'
                 autoComplete='current-password'
-                variant='standard'
+                // variant='standard'
                 error={!!errors.userPswd}
                 {...register('userPswd')}
                 helperText={!!errors.userPswd ? errors.userPswd.message : ''}
