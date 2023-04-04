@@ -14,7 +14,7 @@ const sections = [
   { title: 'bombGame', url: '#' },
   { title: 'validation', url: '#' },
   { title: 'kakao', url: '#' },
-  { title: 'egg', url: '#' },
+  { title: 'paging', url: '#' },
   { title: 'fish', url: '#' },
   { title: 'girl', url: '#' },
   { title: 'hope', url: '#' },
