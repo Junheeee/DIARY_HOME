@@ -15,7 +15,7 @@ const sections = [
   { title: 'validation', url: '#' },
   { title: 'kakao', url: '#' },
   { title: 'paging', url: '#' },
-  { title: 'fish', url: '#' },
+  { title: 'infinite', url: '#' },
   { title: 'girl', url: '#' },
   { title: 'hope', url: '#' },
   { title: 'import', url: '#' },

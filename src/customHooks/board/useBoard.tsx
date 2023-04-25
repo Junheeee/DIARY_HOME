@@ -1,12 +1,12 @@
-import { QueryClient, useMutation, useQuery } from "react-query";
-import { boardApi } from "../../modules/board/boardApi";
+import { QueryClient, useMutation, useQuery } from 'react-query';
+import { boardApi } from '../../modules/board/boardApi';
 
 const queryClient = new QueryClient();
 
 export function useBoardList() {
-  const query = useQuery(["boardList"], boardApi.boardList, {
-    staleTime: 10000,
-    cacheTime: Infinity,
+  const query = useQuery(['boardList'], boardApi.boardList, {
+    staleTime: 3000,
+    cacheTime: Infinity
   });
   return query;
 }
@@ -22,9 +22,9 @@ export function useBoardRemove() {
 }
 
 export function useBoardDetail(boardSno: number) {
-  const query = useQuery(["apple", boardSno], boardApi.boardDetail, {
+  const query = useQuery(['apple', boardSno], boardApi.boardDetail, {
     staleTime: 5000,
-    cacheTime: Infinity,
+    cacheTime: Infinity
   });
   return query;
 }

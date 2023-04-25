@@ -1,20 +1,20 @@
 /* eslint-disable react/jsx-key */
-import { QueryClient, useQuery } from "react-query";
-import { Box, Button, TextField } from "@mui/material";
-import { DataGrid, GridRowParams } from "@mui/x-data-grid";
-import { useState, useEffect } from "react";
+import { QueryClient, useQuery } from 'react-query';
+import { Box, Button, TextField } from '@mui/material';
+import { DataGrid, GridRowParams } from '@mui/x-data-grid';
+import { useState, useEffect } from 'react';
 import {
   useBoardAdd,
   useBoardList,
-  useBoardRemove,
-} from "../../customHooks/board/useBoard";
-import { useRouter } from "next/router";
+  useBoardRemove
+} from '../../customHooks/board/useBoard';
+import { useRouter } from 'next/router';
 
 export default function BoardList() {
   const router = useRouter();
   const queryClient = new QueryClient();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [removeNo, setRemoveNo] = useState({});
 
   const board_list = useBoardList();
@@ -25,29 +25,29 @@ export default function BoardList() {
   if (board_list.isError) return <div>에러</div>;
 
   const columns = [
-    { field: "boardSno", headerName: "NO", width: 90 },
+    { field: 'boardSno', headerName: 'NO', width: 90 },
     {
-      field: "title",
-      headerName: "TITLE",
+      field: 'title',
+      headerName: 'TITLE',
       width: 200,
-      editable: true,
+      editable: true
     },
     {
-      field: "content",
-      headerName: "CONTENT",
+      field: 'content',
+      headerName: 'CONTENT',
       width: 300,
-      editable: true,
+      editable: true
     },
     {
-      field: "des",
-      headerName: "DESCRIPTION",
+      field: 'des',
+      headerName: 'DESCRIPTION',
       width: 150,
       editable: true,
       renderCell: (row: any) => (
         <strong>
           <Button
-            variant="outlined"
-            size="small"
+            variant='outlined'
+            size='small'
             onClick={() => {
               router.push(`/board/detail/${row.id}`);
             }}
@@ -55,49 +55,55 @@ export default function BoardList() {
             DES
           </Button>
         </strong>
-      ),
-    },
+      )
+    }
   ];
 
   return (
     <div>
       <div>
         <TextField
-          id="userId"
-          name="userId"
-          label="TITLE"
+          id='userId'
+          name='userId'
+          label='TITLE'
           maxRows={1}
-          variant="standard"
+          variant='standard'
           value={title}
           onChange={({ target: { value } }) => setTitle(value)}
         />
         <TextField
-          id="userId"
-          name="userId"
-          label="CONTENT"
+          id='userId'
+          name='userId'
+          label='CONTENT'
           maxRows={1}
-          variant="standard"
+          variant='standard'
           value={content}
           onChange={({ target: { value } }) => setContent(value)}
         />
         <Button
-          style={{ margin: "20px 20px 10px 20px" }}
-          variant="outlined"
-          size="small"
+          style={{ margin: '20px 20px 10px 20px' }}
+          variant='outlined'
+          size='small'
           onClick={() => {
             board_add.mutate(
               {
                 boardSno: 0,
                 title: title,
-                content: content,
+                content: content
               },
               {
-                onSuccess: (data) => {
-                  setTitle("");
-                  setContent("");
+                onSuccess: data => {
+                  setTitle('');
+                  setContent('');
                   board_list.refetch();
-                  // queryClient.invalidateQueries("test");
-                },
+                  // queryClient.invalidateQueries(['boardList']);
+                  // queryClient.setQueryData(['boardList'], oldQueryData => {
+                  //   return {
+                  //     ...oldQueryData,
+                  //     data: [...oldQueryData.data, data.data]
+                  //   };
+                  // });
+                }
               }
             );
           }}
@@ -105,18 +111,18 @@ export default function BoardList() {
           ADD
         </Button>
         <Button
-          style={{ margin: "20px 0px 10px 0px" }}
-          variant="outlined"
-          size="small"
+          style={{ margin: '20px 0px 10px 0px' }}
+          variant='outlined'
+          size='small'
           onClick={() => {
             board_rem.mutate(
-              { boardSnoList: removeNo, delYn: "Y" },
+              { boardSnoList: removeNo, delYn: 'Y' },
               {
-                onSuccess: (data) => {
+                onSuccess: data => {
                   console.log(data);
-                  alert("삭제완료");
+                  alert('삭제완료');
                   board_list.refetch();
-                },
+                }
               }
             );
           }}
@@ -125,16 +131,16 @@ export default function BoardList() {
         </Button>
       </div>
       {board_list.data ? (
-        <div style={{ height: 375, width: "auto" }}>
+        <div style={{ height: 375, width: 'auto' }}>
           <DataGrid
             rows={board_list.data}
-            getRowId={(data) => data.boardSno}
+            getRowId={data => data.boardSno}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
             checkboxSelection
             disableSelectionOnClick
-            onSelectionModelChange={(ids) => {
+            onSelectionModelChange={ids => {
               setRemoveNo(ids);
             }}
           />
